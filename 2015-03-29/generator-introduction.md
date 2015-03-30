@@ -8,7 +8,7 @@ function* generateNaturalNumber() {
 }
 ```
 
-#写在前面
+# 写在前面
 文章中的所有代码均可在chrome中启用实验性javascript功能之后运行
 `chrome://flags/#enable-javascript-harmony`。
 
@@ -37,7 +37,7 @@ for(var i of generateNaturalNumber()) {
 }
 ```
 
-#生成器的语法
+# 生成器的语法
 
 生成器函数也是一种函数，语法上仅比普通function多了个星号* ，即function* ，在其函数体内部可以使用yield和yield* 关键字。
 
@@ -63,7 +63,7 @@ var result = generateNaturalNumber();
 generateNaturalNumber {[[GeneratorStatus]]: "suspended", [[GeneratorFunction]]: function, [[GeneratorReceiver]]: Window}
 ```
 
-#生成器的原理
+# 生成器的原理
 事实上result就是一个生成器，所以调用生成器函数必定会返回一个生成器，同时不会执行内部的任何代码。
 那么问题来了，生成器函数内的代码啥时候才执行呢？答案是调用生成器的next方法。
 
@@ -91,7 +91,7 @@ generateNaturalNumber {[[GeneratorStatus]]: "suspended", [[GeneratorFunction]]: 
 
 调用第二次next，从上一次暂停处继续运行，直到遇到下一个yield，又暂停，以此循环，直到运行到return或者函数结尾，最后退出函数。
 
-#next
+# next
 上面讲了next的返回值，其实next也可以接受一个任意参数，该参数将作为上一个yield的返回值。
 
 什么？yield也有返回值？有点绕？很正常。
@@ -114,7 +114,7 @@ function* generateNaturalNumber() {
 
 生成器的这个特性非常重要，利用该特性可以用同步的方式写出异步执行的代码，从而解决回调地狱（Callback Hell）的问题，笔者会在下一篇文章详细讲述。
 
-#yield和yield*
+# yield和yield*
 ```javascript
 function* genFun1() {
     yield 2;
