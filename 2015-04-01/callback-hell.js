@@ -47,9 +47,9 @@ function(err, results) {
 });
 
 co(function*() {
-    var a = asyncFun1();
-    var b = asyncFun2(a);
-    var c = asyncFun3(b);
+    var a = yield asyncFun1();
+    var b = yield asyncFun2(a);
+    var c = yield asyncFun3(b);
     // do somethin with c
 })();
 
@@ -69,3 +69,43 @@ function co(genFun) {
         }
     }
 }
+
+function parallel(callback) {
+    var processed = 0;
+    var res = [];
+
+    asyncFun1(function(err, a) {
+        if(err) return callback(err);
+
+        processed += 1;
+        res[0] = a;
+        if(processed === 3) callback(null, res);
+    });
+    asyncFun2(function(err, b) {
+        if(err) return callback(err);
+
+        processed += 1;
+        res[1] = b;
+        if(processed === 3) callback(null, res);
+    });
+    asyncFun3(function(err, c) {
+        if(err) return callback(err);
+
+        processed += 1;
+        res[2] = c;
+        if(processed === 3) callback(null, res);
+    });
+}
+
+co(function*() {
+    var res = yield [asyncFun1(), asyncFun2(), asyncFun3()];
+    // do something with res
+})();
+
+var newArr = arr.map(co.wrap(function*(item) {
+    return yield asyncFun(item);
+}));
+
+stream.on('data', co.wrap(function*() {
+    yield asyncFun(item);
+}));
