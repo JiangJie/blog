@@ -1,0 +1,22 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "备份已写的博客",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JiangJie/blog.git"
+  },
+  "author": "jiang115jie@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JiangJie/blog/issues"
+  },
+  "homepage": "https://github.com/JiangJie/blog#readme",
+  "dependencies": {
+    "bluebird": "^2.9.26"
+  }
+}
