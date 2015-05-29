@@ -1,6 +1,6 @@
 'use strict';
 
-var Promise = require('bluebird');
+// var Promise = require('bluebird');
 
 (function() {
     var i = 0;
@@ -13,7 +13,7 @@ var Promise = require('bluebird');
             }
             i++;
             setImmediate(resolve);
-        }).then(run).done();
+        }).then(run);
     }
 
     run();
