@@ -1,3 +1,5 @@
+[![Promise][promise-img]][promise-img]
+
 # [Promise][Promise]
 Promise是ES6的新特性，在ES6之前各大浏览器、各种polyfill和各种js执行环境都针对Promise进行了自己的实现，不过实现上大同小异。
 
@@ -137,6 +139,7 @@ done的作用是告诉引擎没有任何地方需要等Promise resolve或者reje
 
 以上纯属基于简单技术模型的研究，实际中遇到Promise内存泄漏往往很不好排查问题，如发现文章中有不足之处还望在留言中指出。
 
+[promise-img]: http://www.alloyteam.com/wp-content/uploads/2015/05/QQ%E6%88%AA%E5%9B%BE20150530201328.png
 [Promise]: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise
 [bluebird]: https://github.com/petkaantonov/bluebird
 [why-promises-need-to-be-done]: http://bahmutov.calepin.co/why-promises-need-to-be-done.html
