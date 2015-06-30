@@ -5,11 +5,13 @@
 
 # strong mode
 ES5增加了`strict mode`，现在V8又实现了一种新的模式——`strong mode`。
+
 `strong mode`是`strict mode`的升级版，在语法要求上更严格了，同时正因为这些严格的要求，让开发者得以规避语言本身一些糟粕或者让人困惑的地方。
 
 # 开启strong mode
 跟开启strict一样，js文件第一行或者function第一行加上`'use strong';`，
 使用--strong_mode标志位，需要Chrome Cancry或者iojs v2.0以及上。
+
 !!!注意了：如果iojs使用--use_strong标志位，将开启全局strong，不管代码里有没有'use strong;'，一律当作strong mode运行，因此很有可能伤及nodejs本身的模块和第三方不支持strong mode的模块，同样的--use_strict也是全局开启strict模式，都请慎用。
 
 # strong mode有哪些改变
@@ -17,6 +19,7 @@ ES5增加了`strict mode`，现在V8又实现了一种新的模式——`strong 
 
 ### Deprecate sloppy equality
 废弃了==和!=两个比较操作符，强制使用===和!==。
+
 避免了一些意想不到的结果，大家都懂的。
 ```javascript
 'use strong';
@@ -32,6 +35,7 @@ SyntaxError: Please don't use '==' or '!=' in strong mode, use '===' or '!==' in
 
 ### Deprecate 'var'
 废弃了var关键字，变量声明使用const或者let。
+
 const和let不存在变量提升的问题，也可以创造块级作用域。
 ```javascript
 'use strong';
@@ -89,7 +93,9 @@ SyntaxError: Please don't use empty sub-statements in strong mode, make them exp
 
 ### Deprecate for-in
 废弃了`for-in`遍历，可以使用`for-of`替代。
+
 for-in对对象属性进行遍历，for-of对可迭代的对象进行遍历。
+
 for-in存在[诸多问题][for-in]，如果非要遍历对象，可以使用Object.keys(obj)拿到对象的属性列表，然后进行数组遍历。
 ```javascript
 'use strong';
