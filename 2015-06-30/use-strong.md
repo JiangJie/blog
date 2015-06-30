@@ -21,7 +21,7 @@ ES5增加了`strict mode`，现在V8又实现了一种新的模式——`strong 
 废弃了==和!=两个比较操作符，强制使用===和!==。
 
 避免了一些意想不到的结果，大家都懂的。
-```
+```javascript
 'use strong';
 
 if (1 == 1);
@@ -37,7 +37,7 @@ SyntaxError: Please don't use '==' or '!=' in strong mode, use '===' or '!==' in
 废弃了var关键字，变量声明使用const或者let。
 
 const和let不存在变量提升的问题，也可以创造块级作用域。
-```
+```javascript
 'use strong';
 
 var name = 'alloyteam';
@@ -51,7 +51,7 @@ SyntaxError: Please don't use 'var' in strong mode, use 'let' or 'const' instead
 
 ### Deprecate 'delete'
 废弃了delete操作符，需要delete的地方可以使用set或者map的delete，可能数据结构需要改变。
-```
+```javascript
 'use strong';
 
 const obj = {
@@ -67,7 +67,7 @@ SyntaxError: Please don't use 'delete' in strong mode, use maps or sets instead
 ```
 
 可以这样解决
-```
+```javascript
 'use strong';
 
 const obj = new Map([
@@ -79,7 +79,7 @@ obj.delete('name');
 
 ### Deprecate empty sub-statements
 像`if (expression);`这样的空子语句的写法会报错了。
-```
+```javascript
 'use strong';
 
 if (1 === 1);
@@ -97,7 +97,7 @@ SyntaxError: Please don't use empty sub-statements in strong mode, make them exp
 for-in对对象属性进行遍历，for-of对可迭代的对象进行遍历。
 
 for-in存在[诸多问题][for-in]，如果非要遍历对象，可以使用Object.keys(obj)拿到对象的属性列表，然后进行数组遍历。
-```
+```javascript
 'use strong';
 
 const obj = {
@@ -115,7 +115,7 @@ SyntaxError: Please don't use 'for'-'in' loops in strong mode, use 'for'-'of' in
 ```
 
 可以这样解决
-```
+```javascript
 'use strong';
 
 const obj = new Map([
@@ -129,7 +129,7 @@ for (let item of obj) {
 
 ### Deprecate 'arguments'
 函数体内不能再使用arguments变量，可以使用...args替代。
-```
+```javascript
 'use strong';
 
 function test() {
@@ -145,7 +145,7 @@ SyntaxError: Please don't use 'arguments' in strong mode, use '...args' instead
 
 可以这样解决
 node --strong_mode --harmony-rest-parameters example.js
-```
+```javascript
 'use strong';
 
 function test(...args) {
