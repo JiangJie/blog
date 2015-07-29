@@ -35,7 +35,7 @@ gulp 4.0相对以前的版本发生了不少变化
 2. 移除了gulp.task传递三参数的用法
 
 即这种用法将报错
-```
+```js
 gulp.task('watch', ['default'], function() {
     // TODO
     // watch file
@@ -52,7 +52,7 @@ gulp官方建议：
 2. 当一个较复杂的任务（如dist）由很多个子任务组合而成的时候，子任务使用具名函数即可，不用单独为每个子任务进行注册，而只需将`dist`使用`gulp.task`进行注册，以前的版本则必须将每一个子任务都先使用`gulp.task`进行注册，然后再组合出`dist`，详细用法见最后的例子。
 
 gulp.task又增加了一种用法，即传递一个具名函数作为参数，将自动注册以该函数名命名的任务
-```
+```js
 function compile() {
     // TODO
     gulp.src('./src/*.js')
