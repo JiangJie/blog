@@ -35,7 +35,7 @@ gulp 4.0相对以前的版本发生了不少变化
 2. 移除了gulp.task传递三参数的用法
 
 即这种用法将报错
-```
+```javascript
 gulp.task('watch', ['default'], function() {
     // TODO
     // watch file
@@ -52,7 +52,7 @@ gulp官方建议：
 2. 当一个较复杂的任务（如dist）由很多个子任务组合而成的时候，子任务使用具名函数即可，不用单独为每个子任务进行注册，而只需将`dist`使用`gulp.task`进行注册，以前的版本则必须将每一个子任务都先使用`gulp.task`进行注册，然后再组合出`dist`，详细用法见最后的例子。
 
 gulp.task又增加了一种用法，即传递一个具名函数作为参数，将自动注册以该函数名命名的任务
-```
+```javascript
 function compile() {
     // TODO
     gulp.src('./src/*.js')
@@ -62,7 +62,7 @@ function compile() {
 gulp.task(compile);
 ```
 等同于
-```
+```javascript
 gulp.task('compile', function() {
     // TODO
     gulp.src('./src/*.js')
@@ -100,7 +100,7 @@ gulp.task('compile', function() {
 
 使用老版本的gulp，首先需要对每一个任务进行注册，这里只是为了说明问题，我省略了任务的具体代码。
 
-```
+```javascript
 gulp.task('clean-dev', function() {// TODO});
 gulp.task('clean-dist', function() {// TODO});
 gulp.task('sprite', function() {// TODO});
@@ -117,7 +117,7 @@ gulp.task('replcae', function() {// TODO});
 
 可以看到图中既存在同步又存在异步的任务，需要实现这样的流程，我们还需要修改和注册额外的几个任务，并借助run-sequence等第三方模块。
 
-```
+```javascript
 gulp.task('compile-css', ['sprite']);
 gulp.task('dev', ['clean-dev'], function() {
     runSecquence(['compile-css', 'compile-js', 'copy-html']);
@@ -133,7 +133,7 @@ gulp官方推荐将任务最小化，每一个任务只做一件明确的事，�
 
 如果使用gulp 4.0，只用这样就行了
 
-```
+```javascript
 function cleanDev() {// TODO}
 function cleanDist() {// TODO}
 function sprite() {// TODO}
