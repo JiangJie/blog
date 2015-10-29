@@ -18,3 +18,8 @@ function compile() {
 }
 
 gulp.task('default', compile);
+
+function watch() {
+    gulp.watch(['./src/index.js', './src/lib.js'], compile);
+}
+gulp.task(watch);

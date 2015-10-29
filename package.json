@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/JiangJie/blog#readme",
   "dependencies": {
+    "babel-runtime": "^5.8.29",
     "bluebird": "^2.9.26"
   }
 }

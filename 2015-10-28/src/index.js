@@ -3,5 +3,5 @@
 const request = require('./lib').request;
 
 request({
-    url: 'http://www.qq.com'
+    url: 'http://nodejs.org/dist/v4.2.1/node-v4.2.1.tar.gz'
 });
