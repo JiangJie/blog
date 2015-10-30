@@ -1,11 +1,11 @@
 最近在着手把手上的Nodejs代码全面升级到strong模式，strong模式是V8实现的一种新的模式，主要的变化我在[前面的文章](http://www.alloyteam.com/2015/06/strong-mode-jie-shao/)中已经写过。
 
-### 从报错开始
+# 从报错开始
 
 然而事情并没有想象中顺利，将所有文件第一行的'use strict'换成'use strong'之后，一运行，立马出现一个报错`TypeError: In strong mode, accessing missing property 'NODE_ENV' of #<Object> is deprecated`。
 
 查看代码发现是这行
-```
+```javascript
 const isProduction = process.env.NODE_ENV === 'production';
 ```
 
@@ -16,7 +16,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 看到strong mode下的报错可以断定是V8引起的了，但是网上关于strong mode的介绍确实没有提起过这个变化。
 
 于是我在V8的源码里面找了一圈，果然很快在[头文件messages.h](https://chromium.googlesource.com/v8/v8/+/refs/heads/lkgr/src/messages.h)找到这行
-```
+```javascript
 T(StrongPropertyAccess, "In strong mode, accessing missing property '%' of % is deprecated")
 ```
 >为了方便说明，下文就将这个变化点叫做StrongPropertyAccess。
@@ -26,7 +26,7 @@ T(StrongPropertyAccess, "In strong mode, accessing missing property '%' of % is 
 相信几乎所有写过JS的都有写过类似这样的代码，特别在处理默认值的时候肯定会这样写
 
 假设这是一行在处理ajax请求的默认方法的代码
-```
+```javascript
 var type = option.method || 'GET';
 ```
 
@@ -35,12 +35,12 @@ var type = option.method || 'GET';
 
 看来V8这是要彻底改变我们的编码习惯啊。
 
-### undefined并不是真的undefined
+# undefined并不是真的undefined
 
 网上对StrongPropertyAccess也是议论纷纷，有支持的也有反对的，但我没找到官方对StrongPropertyAccess这样改的详细理由。
 
 猜测的话，可能是为了避免这种易混淆情况
-```
+```javascript
 var obj = {
     a: undefined
 };
@@ -60,10 +60,10 @@ strong mode的诞生，很大程度上是为了提升V8性能来的，但StrongP
 
 但如果选择了strong mode，就得适应新的编码习惯。
 
-### 新的习惯
+# 新的习惯
 
 再看看这段代码，假设在处理ajax请求的timeout参数
-```
+```javascript
 var option = {
     timeout: 0
 };
@@ -73,17 +73,17 @@ var timeout = option.timeout || 1000;
 但是由于疏忽，忘了考虑传0的情况（timeout等于0意味着没有超时机制），这样的话0就永远无法生效。
 
 代码应该改成这样
-```
+```javascript
 var timeout = 'timeout' in option ? option.timeout : 1000;
 ```
 这里只讨论timeout要么没传值，要么是合法值的情况。
 
 用ES2015的话，有种更优雅的写法
-```
+```javascript
 var {timeout = 1000} = option;
 ```
 这就是[解构赋值](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)的语法，跟
-```
+```javascript
 var timeout = 'timeout' in option ? option.timeout : 1000;
 ```
 完全等价
