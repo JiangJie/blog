@@ -1,6 +1,6 @@
 最近在着手把手上的Nodejs代码全面升级到strong模式，strong模式是V8实现的一种新的模式，主要的变化我在[前面的文章](http://www.alloyteam.com/2015/06/strong-mode-jie-shao/)中已经写过。
 
-# 从报错开始
+### 从报错开始
 
 然而事情并没有想象中顺利，将所有文件第一行的'use strict'换成'use strong'之后，一运行，立马出现一个报错`TypeError: In strong mode, accessing missing property 'NODE_ENV' of #<Object> is deprecated`。
 
@@ -35,7 +35,7 @@ var type = option.method || 'GET';
 
 看来V8这是要彻底改变我们的编码习惯啊。
 
-# undefined并不是真的undefined
+### undefined并不是真的undefined
 
 网上对StrongPropertyAccess也是议论纷纷，有支持的也有反对的，但我没找到官方对StrongPropertyAccess这样改的详细理由。
 
@@ -60,7 +60,7 @@ strong mode的诞生，很大程度上是为了提升V8性能来的，但StrongP
 
 但如果选择了strong mode，就得适应新的编码习惯。
 
-# 新的习惯
+### 新的习惯
 
 再看看这段代码，假设在处理ajax请求的timeout参数
 ```
@@ -82,7 +82,7 @@ var timeout = 'timeout' in option ? option.timeout : 1000;
 ```
 var {timeout = 1000} = option;
 ```
-这就是解构赋值的语法，跟
+这就是[解构赋值](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)的语法，跟
 ```
 var timeout = 'timeout' in option ? option.timeout : 1000;
 ```
