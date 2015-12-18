@@ -238,6 +238,7 @@ async componentDidMount() {
 
 ### 总结
 
-1. 虽然async/await是ES2016才支持的新特性，目前尚处于草案状态，不过其作用和用法基本不会变了，一些其他语言已实现该特性，看来确实是大势所趋
-2. 当下的JS引擎还没有原生支持async/await的，不过现在就可以使用babel转换成ES5等效代码，你甚至可以在生产环境使用
-3. async/await才是解决异步回调的最佳实践，终于可以放归generator了
+1. async/await才是解决异步回调的最佳实践，终于可以放归generator了
+2. async/await只是一套语法糖，其他语言的async/await可能是协程或者多线程编程的语法糖，JS本身是单线程的，async/await与传统的callback或者promise执行起来并无两样
+3. 虽然async/await是ES2016才支持的新特性，目前尚处于草案状态，不过其作用和用法基本不会变了，一些其他语言已实现该特性，看来确实是大势所趋
+4. 当下的JS引擎还没有原生支持async/await的，不过现在就可以使用babel转换成ES5等效代码，你甚至可以在生产环境中使用
