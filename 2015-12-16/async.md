@@ -1,3 +1,4 @@
+### 背景
 
 笔者在前面的文章介绍过[如何使用generator来解决callback hell](http://www.alloyteam.com/2015/04/solve-callback-hell-with-generator/)，尽管现在多数浏览器特别是移动端浏览器还不支持该ES2015新特性，但你可以通过[Babel](https://babeljs.io/)等转换工具转化成ES5兼容的等效代码，从而在生产环境使用。
 
@@ -163,7 +164,12 @@ await Promise.all([promise1, promise2, ..., promisen])
 
 ### 在React中使用async/await
 
-假设有个展示个人信息（info）的组件，而个人信息需要发起网络请求才能得到，一般的做法是在getInitialState的时候返回一个初始值info，然后在componentDidMount里发起网络请求，得到info，再更新state，重新渲染组件。
+前文提过，笔者已在生产环境用过async function了，
+当前React正火的不要不要的，前段时间正好借此机会用React搭了个内部使用的系统，
+以展示个人信息（info）组件为例
+
+个人信息需要发起后台请求才能得到，一般的做法是在`getInitialState`的时候返回一个初始值info，然后在`componentDidMount`里发起网络请求，得到info，再更新state，重新渲染组件。
+
 ```
 React.createClass({
     getInitialState() {
@@ -187,7 +193,9 @@ React.createClass({
     }
 });
 ```
-tips：使用箭头函数可以避免这种熟悉的代码
+
+>Tips：使用箭头函数可以避免this错乱的问题，你肯定写过下面这样的代码
+
 ```
 componentDidMount() {
     const self = this;
@@ -204,7 +212,8 @@ componentDidMount() {
     });
 }
 ```
-因为我们并不关心componentDidMount的返回值，所以可以将一个async function赋值给componentDidMount，一切都按照预期在执行。
+
+虽然async function的返回值一定是一个promise，然而我们并不关心componentDidMount的返回值，所以可以将一个async function赋值给componentDidMount，一切都会按照预期执行。
 ```
 async componentDidMount() {
     try {
@@ -218,6 +227,17 @@ async componentDidMount() {
     }
 }
 ```
-没有闭包，没有作用域变化，可以放心使用this。
 
-以上代码片都可以通过babel转换成兼容ES5的等效代码，本文不讲怎么使用[babel](https://babeljs.io/)，官网有详尽的教程。
+>Tips：没有闭包，没有作用域变化，可以放心使用this，错误处理直接使用try/catch
+
+##### 最后一步
+
+使用babel（配合构建工具或者单独使用babel-cli）将代码转换成兼容ES5的等效代码，本文不讲怎么使用[babel](https://babeljs.io/)，官网有详尽的教程。
+
+如你所愿，在React中使用async/await就这么简单。
+
+### 总结
+
+1. 虽然async/await是ES2016才支持的新特性，目前尚处于草案状态，不过其作用和用法基本不会变了，一些其他语言已实现该特性，看来确实是大势所趋
+2. 当下的JS引擎还没有原生支持async/await的，不过现在就可以使用babel转换成ES5等效代码，你甚至可以在生产环境使用
+3. async/await才是解决异步回调的最佳实践，终于可以放归generator了
