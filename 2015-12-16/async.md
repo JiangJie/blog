@@ -5,6 +5,7 @@
 不过使用generator来解决callback hell似乎有点不务正业，毕竟generator是生成器，属于Iterator的一种，设计之初是用来生成一种特殊的迭代器的。
 
 另外还有两点也可以算是generator解决callback hell问题的缺陷：
+
 1. generator需要从generator function执行得到，而generator function执行之后只会返回一个generator，不管里面是怎样的代码，与我们通常对函数的认知存在差异
 2. 如果想执行generator function的函数体，需要不断调用返回的generator的next方法，这样就决定了必须依赖[co](https://github.com/tj/co)或[bluebird.coroutine](http://bluebirdjs.com/docs/api/promise.coroutine.html)等其他辅助代码或者手动执行next，来保证generator不断next下去
 
@@ -13,7 +14,9 @@
 众所周知，ES2015来的太晚了，而现在，TC39决定加快脚步，也许每年都会有新版本发布，明年可能会发布ES2016。ES2016终于给JS带来了async/await原生支持，而其他语言如C#、Python等更早就支持上了。
 
 而async/await正是本文要重点介绍的用来解决callback hell问题的终极大杀器。
-虽然离浏览器或nodejs支持ES2016还有很久很久，但依靠babel任然可以转换出当前环境就支持的代码。本文的最后还将分享笔者在生产环境使用async/await的经验，对，就是生产环境。
+虽然离浏览器或nodejs支持ES2016还有很久很久，但依靠babel任然可以转换出当前环境就支持的代码。
+
+本文的最后还将分享笔者在生产环境使用async/await的经验，对，就是生产环境。
 
 ### async/await语法
 
@@ -67,7 +70,7 @@ async function asyncFunc() {
 
 ### 做正确的事
 
-用generator来解决异步函数回调问题始终觉得有些别扭，现在就让它做回本职工作吧，回调问题就交由async/await来解决————做正确的事。
+用generator来解决异步函数回调问题始终觉得有些别扭，现在就让它做回本职工作吧，回调问题就交由async/await来解决——做正确的事。
 
 先来回顾一下generator配合co来解决异步回调问题的方法，首先yy一个场景，见注释
 ```
@@ -106,6 +109,7 @@ co(*() => {
 可以看到两种方法在代码的写法商非常相似，不严格的说，仅仅将function*换成async function，同时将函数体里面的yield关键字换成await关键字即可，顺便还可以把co等辅助工具抛弃了。
 
 那么代价，哦不，好处是什么？
+
 1. 更接近自然语言，async/await比function*/yield更好理解，需要异步执行的函数加一个标记async，调用的时候在前面加一个await，表示需要等到异步函数返回了才执行下面的语句
 2. 无需依赖其他辅助代码，js原生能力支持
 3. event listener、大量函数的callback等，不支持generator function，但是支持async function（所有支持普通function的地方都支持async function），无需co.wrap等辅助代码来包装
@@ -238,7 +242,7 @@ async componentDidMount() {
 
 ### 总结
 
-1. async/await才是解决异步回调的最佳实践，终于可以放归generator了
-2. async/await只是一套语法糖，其他语言的async/await可能是协程或者多线程编程的语法糖，JS本身是单线程的，async/await与传统的callback或者promise执行起来并无两样
-3. 虽然async/await是ES2016才支持的新特性，目前尚处于草案状态，不过其作用和用法基本不会变了，一些其他语言已实现该特性，看来确实是大势所趋
-4. 当下的JS引擎还没有原生支持async/await的，不过现在就可以使用babel转换成ES5等效代码，你甚至可以在生产环境中使用
+* async/await才是解决异步回调的最佳实践，终于可以放归generator了
+* async/await只是一套语法糖，其他语言的async/await可能是协程或者多线程编程的语法糖，JS本身是单线程的，async/await与传统的callback或者promise执行起来并无两样
+* 当下的JS引擎还没有原生支持async/await的，不过现在就可以使用babel转换成ES5等效代码，你甚至可以在生产环境中使用
+* 虽然async/await是ES2016才支持的新特性，目前尚处于草案状态，不过其作用和用法基本不会变了，一些其他语言已实现该特性，看来确实是大势所趋
