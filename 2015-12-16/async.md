@@ -47,7 +47,7 @@ Class someClass {
 }
 ```
 
-没什么特别的，就在我们通常的写法前加上关键字`async`就行了，就像generator function仅仅比普通function多了一个*。
+没什么特别的，就在我们通常的写法前加上关键字`async`就行了，就像generator function仅仅比普通function多了一个\*。
 
 function前面加上`async`关键字，表示该function需要执行异步代码。
 async function函数体内可以使用`await`关键字，且`await`关键字只能出现在async function函数体内，这一点和generator function跟yield的关系一样。
@@ -66,7 +66,7 @@ async function asyncFunc() {
 
 如果用generator来解决callback hell，必须配合使用yield关键字和next方法，而理解清楚yield的作用和返回值以及next的参数作用就够消化两天了，await关键字不像yield关键字和next方法这么难以理解，它的意思就是等待，作用也是等待，而且一个关键字就够了。
 
->Tips：[前文](http://www.alloyteam.com/2015/03/es6-generator-introduction/)介绍yield的时候还提到了yield*，其实ES2016草案里面也提到了await*，不过它不是标准的一部分，草案并不要求必须实现，而且草案并不建议使用，不过后文还是会提到await*的用法。
+>Tips：[前文](http://www.alloyteam.com/2015/03/es6-generator-introduction/)介绍yield的时候还提到了yield\*，其实ES2016草案里面也提到了await\*，不过它不是标准的一部分，草案并不要求必须实现，而且草案并不建议使用，不过后文还是会提到await\*的用法。
 
 ### 做正确的事
 
@@ -106,11 +106,11 @@ co(*() => {
 
 >Tips：代码片中用到了一些ES2015的新语法，不要介意，随便查一些文档就能看懂。
 
-可以看到两种方法在代码的写法上非常相似，不严格的说，仅仅将function*换成async function，同时将函数体里面的yield关键字换成await关键字即可，顺便还可以把co等辅助工具抛弃了。
+可以看到两种方法在代码的写法上非常相似，不严格的说，仅仅将function\*换成async function，同时将函数体里面的yield关键字换成await关键字即可，顺便还可以把co等辅助工具抛弃了。
 
 那么代价，哦不，好处是什么？
 
-1. 更接近自然语言，async/await比function*/yield更好理解，需要异步执行的函数加一个标记async，调用的时候在前面加一个await，表示需要等到异步函数返回了才执行下面的语句
+1. 更接近自然语言，async/await比function\*/yield更好理解，需要异步执行的函数加一个标记async，调用的时候在前面加一个await，表示需要等到异步函数返回了才执行下面的语句
 2. 无需依赖其他辅助代码，js原生能力支持
 3. event listener、大量函数的callback等，不支持generator function，但是支持async function（所有支持普通function的地方都支持async function），无需co.wrap等辅助代码来包装
 4. 在某些JS引擎执行generator function的bind方法，会返回一个普通function，尽管这是引擎的问题，async function不存在这样的问题，bind之后还是返回一个async function，从而可以避免一些意想不到的问题
@@ -153,7 +153,7 @@ generator的方式
 yield [promise1, promise2, ..., promisen]
 ```
 
->Tips：不是yield*
+>Tips：不是yield\*
 
 async的方式
 ```
@@ -164,7 +164,7 @@ await* [promise1, promise2, ..., promisen]
 await Promise.all([promise1, promise2, ..., promisen])
 ```
 
-不过草案并不推荐await*，以后的浏览器也不一定会实现这种语法，还是推荐使用Promise.all的方式，不过babel等转换工具是支持await*的。
+不过草案并不推荐await\*，以后的浏览器也不一定会实现这种语法，还是推荐使用Promise.all的方式，不过babel等转换工具是支持await\*的。
 
 ### 在React中使用async/await
 
