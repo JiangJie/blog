@@ -18,18 +18,66 @@ npm config -h
 npm addUser
 npm init -y
 
+说到npm就不得不说package.json，每一个npm包都必须有一个package.json文件，年轻时候的我还傻乎乎的从其他地方拷贝过来然后一个一个属性修改，为了自动化还写了个自动生成的脚本。
+
+后来才发现原来npm自带此功能，官方原厂功能更好更强大，只需要执行`npm init`即可，以交互方式完成package.json的创建，每个字段都会询问是使用默认值还是输入值。
+
+如果全部都可以使用默认值，那执行`npm init -y`更简单，连交互式界面都不会出现。
+
+另外需要注意，`npm init`的时候需要输入用户字段，如果还没有设置npm用户，可以通过`npm addUser`设置。
+
 # npm install
-npm i
-npm i react
-npm i react -g
-npm i react -S
-npm i react -D
+
+`npm install`作为npm最重要的功能和大家最常用的功能，不用过多说明，这里只介绍三个非常有用的选项`--global`，`--save`，`--save-dev`。
+
+你肯定知道`--global`可以简写成`-g`，其实另外两个选项也有简写形式，`--save`可以简写成`-S`，`--save-dev`可以简写成`-D`。
+
+另外`npm install`也可以简写成`npm i`，相应的卸载命令`npm uninstall`可以简写成`npm un`，事实上npm的很多命令和选项在设计上都非常类似unix上的功能，这里指的是命令和选项都可以极大化地简写，只要在不混淆的情况下。
+
+`--save`会在packaje.json的dependencies字段增加一个安装包和已安装的版本，`--save-dev`会在devDependencies增加，这样我们并不需要把node_modules文件夹提交到git，在其他地方，只要有package.json，通过`npm i`就能完成所有依赖包的安装了。
+
+以react为例，
+`npm i react -S`将为package.json增加
+```javascript
+"dependencies": {
+  "react": "^0.14.7"
+}
+```
+
+`npm i react -D`将为package.json增加
+```javascript
+"devDependencies": {
+  "react": "^0.14.7"
+}
+```
 
 # npm update
-npm outdated
+
+假如react@15（版本号，下同）发布了，想尝鲜的小伙伴该怎么更新呢。
+首先得知道npm上是否已经更新，`npm info react`可以查看到react在npm上有哪些版本以及最新的版本，但是内容太多，让人眼花缭乱，配合grep会好一些。
+`npm dist-tags ls react`会直接列出react发布过哪些tag，
+```javascript
+> npm dist-tags ls react
+0.10.0-rc1: 0.10.0-rc1
+0.11.0-rc1: 0.11.0-rc1
+latest: 0.14.7
+next: 15.0.0-rc.1
+```
+以及这些tag目前是哪些版本，比如最常用的latest，next tag已经发布了react@15的第一个rc版了，尝鲜的朋友可以试一试了。
+
+另外一个命令`npm outdated`，会检测当前安装的所有npm包是否有更新，并列出可以更新的包，如果没有任何输出，那么恭喜你，所有的包都是不需要更新的。
+
+如果之前安装的react版本是0.14.3，同时还安装了redux@3.2.0，执行`npm outdated`会输出
+```javascript
+Package  Current  Wanted  Latest  Location
+react     0.14.3  0.14.7  0.14.7  example
+redux      3.2.0   3.3.1   3.3.1  example
+```
+这种情况则说明react和redux该更新了，更新具体某个包使用`npm update package_name`即可，`npm update`则会更新所有可更新的包。
 
 # npm publish
-npm login
+
+npm作为一个大仓库，每天都有大量的新包发布上来，发布自己的包非常容易，而且几乎零门槛，对应的发布的命令是`npm publish`，但前提是你需要一个npm账号，假设你已经有账号了，在发布之前需要使用`npm login`进行登录。发布之前请先阅读以下关于版本号的介绍。
 
 npm包版本号一般都是`x.y.z`的形式。
 
@@ -52,6 +100,42 @@ npm version major => x+1 && y=0 && z=0
 如果同时npm包又是一个git仓库，在运行了`npm version <update_type>`和`npm publish`之后，npm会自动给git仓库打上一个跟当前版本号一样的tag。
 
 # npm2 & npm3
+上面介绍了npm包安装、更新和发布，几乎能满足日常使用了，另外再搬点干货过来。
+
+最近小伙伴们在使用npm3的时候经常吐槽npm3安装很慢，在npm3发布之初我就听说npm3解决了windows上安装npm包目录太深的问题，相信使用过npm1或者npm2的都知道，node_modules太多太深了，甚至很容易就超过windows资源管理器能处理的最长路径长度，听起来有点拗口，说白了这时候复制粘贴删除就会报错了。
+
+已经使用过npm3的肯定会发现，npm3将依赖模块扁平化存放了，node_modules文件夹里面子文件夹增多了，出现了很多没有通过`npm install`安装过的模块。
+由于每个包和包的依赖都会去计算是否需要再安装，搜索起来确实变慢了。
+刚发布的npm3很慢很慢，好在最新的npm3看起来快了不少，安装进度条什么的也完善了很多。
+
 按照官方文档介绍，npm3处理模块依赖的方式跟npm2很不一样。
 
-已经使用过npm3的肯定会发现，npm3将依赖模块扁平化了，node_modules文件夹里面子文件夹增多了，出现了很多没有通过`npm install`安装过的模块。而且npm3刚发布的时候，普遍反映安装模块很慢。
+> 以下是搬的砖
+
+### npm的依赖
+
+假如App需要安装两个包A@1和C@1，其中A@1依赖另一个包B@1，C@1依赖B@2，分别用npm2和npm3安装之后的依赖图分别是这样的
+![npm3dependencies](https://camo.githubusercontent.com/6f9fc98fb2985a8c0d3883d2ad59f7a5acfe9d1c/68747470733a2f2f646f63732e6e706d6a732e636f6d2f696d616765732f6e706d3364657073342e706e67)
+
+npm3按照安装顺序存放依赖模块，所以B@1存放在第一级目录，B@2为了避免和B@1的冲突，还是继续放在C@1之下。
+
+下面加上一点变化，假如又增加了一个包D@1，依赖B@2，包结构将变成下面这样
+
+![npm3dependencies-1](https://camo.githubusercontent.com/e61e0ace80a5b44003b0c6ff9d65f5d88772edb6/68747470733a2f2f646f63732e6e706d6a732e636f6d2f696d616765732f6e706d3364657073362e706e67)
+
+虽然C@1和D@1都依赖B@2，但是由于A@1先安装，A@1依赖的B@1已经安装到第一级目录了，后续需要安装的所有包B，只要版本不是1，都需要避免和B@1的冲突，所以只能安装在相应包下面。
+
+而如果又增加了一个E@1，依赖B@1，则不用重复安装B@1，包结构会变成这样
+
+![npm3dependencies-2](https://camo.githubusercontent.com/f1b0a85f8ff98f7899a3e0995541a7c868e5ce49/68747470733a2f2f646f63732e6e706d6a732e636f6d2f696d616765732f6e706d3364657073382e706e67)
+
+这时候把A@1升级到A@2，而A@2依赖B@2，把E@1升级到E@2，E@2也依赖B@2，那么B@1将不会再被谁依赖，npm将卸载B@1，新的包结构将变成这样
+
+![npm3dependencies-3](https://camo.githubusercontent.com/ec5b15a3da040184f8defcf2f21b034e8e58ab31/68747470733a2f2f646f63732e6e706d6a732e636f6d2f696d616765732f6e706d336465707331322e706e67)
+
+结果跟预期的不一样，既然所有对B的依赖都是B@2，那么安装一次就够了。
+
+npm在安装包的时候没有这么“智能”，不过`npm dedupe`命令做的事就是重新计算依赖关系，然后将包结构整理得更合理。
+
+执行一遍`npm dedupe`将得到
+![npm3dependencies-4](https://camo.githubusercontent.com/766485ddf78c4dd9e2cffae6d6e2917ee8f9a1b5/68747470733a2f2f646f63732e6e706d6a732e636f6d2f696d616765732f6e706d336465707331332e706e67)
