@@ -21,27 +21,27 @@
 ### async/await语法
 
 函数声明
-```
+```javascript
 async function asyncFunc() {}
 ```
 
 函数表达式
-```
+```javascript
 const asyncFunc = async function() {}
 ```
 
 匿名函数
-```
+```javascript
 async function() {}
 ```
 
 箭头函数
-```
+```javascript
 async () => {}
 ```
 
 类方法
-```
+```javascript
 Class someClass {
     async asyncFunc() {}
 }
@@ -52,13 +52,13 @@ Class someClass {
 function前面加上`async`关键字，表示该function需要执行异步代码。
 async function函数体内可以使用`await`关键字，且`await`关键字只能出现在async function函数体内，这一点和generator function跟yield的关系一样。
 
-```
+```javascript
 async function asyncFunc() {
     await anything;
 }
 ```
 await关键字可以跟在任意变量或者表达式之前，从字面很好理解该关键字有等待的意思，所以更有价值的用法是await后面跟一个异步过程，通常是Promise，
-```
+```javascript
 async function asyncFunc() {
     await somePromise;
 }
@@ -73,7 +73,7 @@ async function asyncFunc() {
 用generator来解决异步函数回调问题始终觉得有些别扭，现在就让它做回本职工作吧，回调问题就交由async/await来解决——做正确的事。
 
 先来回顾一下generator配合co来解决异步回调问题的方法，首先yy一个场景，见注释
-```
+```javascript
 co(*() => {
     try {
         // 获取用户名
@@ -89,7 +89,7 @@ co(*() => {
 ```
 
 再来看看async/await的解决方式
-```
+```javascript
 (async () => {
     try {
         // 获取用户名
@@ -122,7 +122,7 @@ co(*() => {
 如果有return，return后面的值都会被包装成一个promise，所以`return 'hello world'`和`return Promise.resolve('hello world')`其实是一样的效果。
 
 由于async function返回一个promise，我们可以跟在await后面，类似这样
-```
+```javascript
 async function asyncFun1() {}
 async function asyncFun2() {
     await asyncFun1();
@@ -134,7 +134,7 @@ asyncFun3();
 ```
 
 其实和下面的代码是一样的效果
-```
+```javascript
 async function asyncFun1() {}
 async function asyncFun2() {}
 async function asyncFun3() {
@@ -149,18 +149,18 @@ asyncFun3();
 多个异步函数，有了串行执行的能力，自然也需要有并行执行的能力。
 
 generator的方式
-```
+```javascript
 yield [promise1, promise2, ..., promisen]
 ```
 
 >Tips：不是yield\*
 
 async的方式
-```
+```javascript
 await* [promise1, promise2, ..., promisen]
 ```
 等效于
-```
+```javascript
 await Promise.all([promise1, promise2, ..., promisen])
 ```
 
@@ -174,7 +174,7 @@ await Promise.all([promise1, promise2, ..., promisen])
 
 个人信息需要发起后台请求才能得到，一般的做法是在`getInitialState`的时候返回一个初始值info，然后在`componentDidMount`里发起网络请求，得到info，再更新state，重新渲染组件。
 
-```
+```javascript
 React.createClass({
     getInitialState() {
         return {info: {}};
@@ -200,7 +200,7 @@ React.createClass({
 
 >Tips：使用箭头函数可以避免this错乱的问题，你肯定写过下面这样的代码
 
-```
+```javascript
 componentDidMount() {
     const self = this;
     // 获取用户名
@@ -218,7 +218,7 @@ componentDidMount() {
 ```
 
 虽然async function的返回值一定是一个promise，然而我们并不关心componentDidMount的返回值，所以可以将一个async function赋值给componentDidMount，一切都会按照预期执行。
-```
+```javascript
 async componentDidMount() {
     try {
         // 获取用户名
