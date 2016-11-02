@@ -11,36 +11,27 @@ theme: moon
 
 [slide]{:&.flexbox.vleft}
 
-超文本传输协议（英文：HyperText Transfer Protocol，缩写：HTTP）是互联网上应用最为广泛的一种网络协议。
-
+超文本传输协议（英文：HyperText Transfer Protocol，缩写：HTTP）是互联网上应用最为广泛的一种网络协议。<br>
 <br>
-
-设计HTTP最初的目的是为了提供一种发布和接收HTML页面的方法。
-
+设计HTTP最初的目的是为了提供一种发布和接收HTML页面的方法。<br>
 <br>
-
-通过HTTP或者HTTPS协议请求的资源由统一资源标识符（Uniform Resource Identifiers，URI）来标识。
-
+通过HTTP或者HTTPS协议请求的资源由统一资源标识符（Uniform Resource Identifiers，URI）来标识。<br>
 <br>
-
-HTTP由万维网协会（World Wide Web Consortium，W3C）和互联网工程任务组（Internet Engineering Task Force，IETF）制定标准，现今最广泛使用的是1999年发布的HTTP/1.1。
-
+HTTP由万维网协会（World Wide Web Consortium，W3C）和互联网工程任务组（Internet Engineering Task Force，IETF）制定标准，现今最广泛使用的是1999年发布的HTTP/1.1。<br>
 <br>
-
 ——摘自维基百科
 
 [slide]
-## 目录
-----
-* OSI七层模型
-* 从认识URL开始
-* HTTP报文
-* HTTP方法
-* HTTP状态码
-* HTTP缓存
-* TLS
-* HTTPS
-* HTTP/2
+* ## OSI七层模型
+* ## 从认识URL开始
+* ## HTTP
+    - ### HTTP报文
+    - ### HTTP方法
+    - ### HTTP状态码
+    - ### HTTP缓存
+* ## **TLS**
+* ## **HTTPS**
+* ## **HTTP/2**
 
 [slide]
 ## OSI七层模型
@@ -51,7 +42,7 @@ HTTP由万维网协会（World Wide Web Consortium，W3C）和互联网工程任
 
 表示层
 
-会话层 <---- TLS
+会话层 <---- **TLS**
 
 传输层 <---- TCP
 
@@ -65,21 +56,24 @@ HTTP由万维网协会（World Wide Web Consortium，W3C）和互联网工程任
 ## 从认识URL开始
 ### 统一资源定位符（Uniform Resource Locator）
 ----
-* 与URI的区别：可以看做是URI的子集
+* 与URI的区别：URL是URI的子集
     - mysql://127.0.0.1:3306/hldn
     - mailto jarvisjiang@tencent.com
-    - ...
+    - http://hldn.huanle.qq.com/game/m/index.html?isExternal
 * 协议格式：protocol://hostname:port/path?quertstring
     - http
     - https
-    - http://hldn.huanle.qq.com/game/m/index.html?isExternal
+    - spdy
+    - ws
+    - wss
 * 必须全部是ASCII码，意味着中文等特殊字符需要encode
     - encodeURIComponent('斗牛') === '%E6%96%97%E7%89%9B'
+    - 事实上'斗'的utf8编码正是 E6 96 97
 
 [slide]
 ## HTTP报文
 ----
-以请求https://www.google.com.hk/为例
+以请求https://www.google.com.hk/ 为例
 
 [slide]
 ### Request
@@ -129,7 +123,7 @@ Content-Length: 215149<br>
 * PATCH：通常用于更新资源的一部分
 * DELETE：删除资源
 * TRACE：可以看到详细的请求过程
-* CONNECT：通常HTTPS会使用
+* CONNECT：通常留给HTTPS使用
 
 [slide]
 ### CONNECT www.google.com.hk:443
@@ -179,7 +173,7 @@ HTTP/1.1 200 Connection established<br>
 {:&.flexbox.vleft}
 
 每一个状态码还有一个对应的短语，最常见到的如：
-* 100 Continue（WebSocket）
+* 100 Switching Protocols（WebSocket）
 * 200 OK
 * 206 Partial Content（大文件分段下载）
 * 302 Found（重定向）
@@ -206,6 +200,12 @@ Last-Modified: Sun, 18 Sep 2016 12:04:25 GMT
 
 If-None-Match: "fba-4bd1532acf040"<br>
 If-Modified-Since: Sun, 18 Sep 2016 12:04:25 GMT
+
+[slide]
+### HTTP的特点
+* 无状态
+* 每条请求都需要创建完整的链接
+* 明文
 
 [slide]
 ## TLS
@@ -237,6 +237,10 @@ SSL 1.0 => SSL 2.0 => SSL3.0 ~= TLS 1.0 => TLS 1.1 => TLS 1.2 => TLS 1.3（还�
 
 [slide]
 ## HTTPS
+### HTTP最大的问题——安全
+----
+* 明文消息
+* 劫持
 
 [slide]
 ## HTTP/2
